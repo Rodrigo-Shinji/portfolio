@@ -1,0 +1,38 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Ou 'master' se essa for a sua branch principal
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        # Requer profundidade total para gh-pages para histórico
+        fetch-depth: 0
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Use uma versão LTS estável do Node.js (ex: 18, 20, 22)
+        cache: 'npm' # Ou 'yarn' se você usar Yarn
+
+    - name: Install dependencies
+      run: npm install # Ou yarn install se você usar Yarn
+
+    - name: Build Vue application
+      run: npm run build # Ou yarn build se você usar Yarn
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3 # Esta é uma ação de terceiros para deploy no GH Pages
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist # A pasta de saída do seu build Vue (geralmente 'dist')
+        # Cname: yourdomain.com # Descomente se você usar um domínio personalizado
