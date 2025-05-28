@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfólio - R. S.  Yamashita</title>
+    <link rel="icon" type="image/png" href="/hutao-icon.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Cores personalizadas para o tema da Hu Tao */
+      :root {
+        --color-dark-blue: #1a1a2e; /* Fundo noturno base para overlay */
+        --color-dark-purple: #16213e; /* Elementos mais escuros */
+        --color-light-purple: #0f3460; /* Elementos médios */
+        --color-accent-red: #e94560; /* Destaque, como as flores */
+        --color-ghost-white: #f0f0f0; /* Fantasma, texto principal */
+        --color-ghost-orange: #ff6e40; /* Olhos do fantasma, links de destaque */
+      }
+
+      /* Classes Tailwind com cores personalizadas */
+      .bg-dark-blue {
+        background-color: var(--color-dark-blue);
+      }
+      .bg-dark-purple {
+        background-color: var(--color-dark-purple);
+      }
+      .bg-light-purple {
+        background-color: var(--color-light-purple);
+      }
+      .text-ghost-white {
+        color: var(--color-ghost-white);
+      }
+      .text-accent-red {
+        color: var(--color-accent-red);
+      }
+      .text-ghost-orange {
+        color: var(--color-ghost-orange);
+      }
+      .border-light-purple {
+        border-color: var(--color-light-purple);
+      }
+
+      /* Fontes personalizadas */
+      .font-serif-sc {
+        font-family: "Noto Serif SC", serif;
+      }
+      .font-ibm-plex-mono {
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      /* Sombra de brilho para os elementos */
+      .glow-shadow {
+        box-shadow: 0 0 15px rgba(255, 110, 64, 0.6); /* Brilho inicial laranja */
+      }
+      .hover\:glow-shadow-lg:hover {
+        box-shadow: 0 0 25px rgba(255, 110, 64, 0.8),
+          0 0 40px rgba(233, 69, 96, 0.4); /* Brilho mais forte laranja + vermelho */
+      }
+
+      /* Estilo para ícones/imagens de destaque */
+      .icon-effect {
+        filter: drop-shadow(0 0 8px var(--color-ghost-orange));
+        transition: transform 0.3s ease-in-out;
+      }
+      .icon-effect:hover {
+        transform: scale(1.1);
+      }
+
+      /* Estilo para o background GIF */
+      .body-background-gif {
+        background-image: url("https://gifdb.com/images/high/hu-tao-impact-genshin-card-0v2foi8myrd1vei4.gif"); /* A URL do GIF da Hu Tao*/
+        background-size: cover; /* Cobre todo o espaço */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Não repete a imagem */
+        background-attachment: fixed; /* Fixa a imagem no viewport ao rolar */
+        position: relative; /* Necessário para o pseudo-elemento overlay */
+        overflow-x: hidden; /* Evita scroll horizontal caso o GIF seja maior */
+      }
+
+      /* Overlay para opacidade e escurecimento do background GIF */
+      .body-background-gif::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-dark-blue); /* Cor base para o overlay */
+        opacity: 0.85; /* Ajuste a opacidade aqui (0.1 a 0.95, onde 1 é totalmente opaco) */
+        z-index: -1; /* Coloca o overlay atrás do conteúdo */
+      }
+
+      /* Estilos para a Timeline */
+      .timeline {
+        position: relative;
+        padding-left: 2rem; /* Espaço para a linha vertical */
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 10px; /* Posição da linha vertical */
+        top: 0;
+        bottom: 0;
+        width: 4px; /* Largura da linha vertical */
+        background-color: var(--color-light-purple);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 2rem;
+        padding-left: 2rem;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: 0; /* Posição do círculo */
+        top: 0.5rem; /* Alinhar com o texto */
+        width: 20px; /* Tamanho do círculo */
+        height: 20px; /* Tamanho do círculo */
+        background-color: var(--color-accent-red);
+        border-radius: 50%;
+        border: 3px solid var(--color-ghost-orange); /* Borda para destaque */
+        z-index: 10;
+        transform: translateX(-50%); /* Centraliza o círculo na linha */
+      }
+
+      .timeline-item-content {
+        background-color: var(--color-dark-purple);
+        border: 1px solid var(--color-light-purple);
+        border-radius: 0.75rem; /* Tailwind: rounded-xl */
+        padding: 1.5rem; /* Tailwind: p-6 */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body class="text-ghost-white font-ibm-plex-mono body-background-gif">
+    <div id="app" class="max-w-4xl mx-auto p-6 relative z-10">
+      <section class="text-center py-10">
+        <div class="flex items-center justify-center mb-4">
+          <h1 class="text-5xl font-bold text-accent-red font-serif-sc">
+            {{ name }}
+          </h1>
+        </div>
+        <p class="mt-4 text-xl text-ghost-white text-opacity-90">
+          Desenvolvedor Front-End com foco em UX, Design Gráfico e Integração
+          com APIs
+        </p>
+        <div class="mt-6 flex justify-center gap-4">
+          <a
+            :href="linkedin"
+            class="inline-flex items-center text-ghost-orange hover:underline text-xl font-medium px-6 py-3 rounded-full border border-ghost-orange hover:bg-ghost-orange hover:text-dark-blue transition-colors duration-300 glow-shadow hover:glow-shadow-lg whitespace-nowrap"
+            target="_blank"
+          >
+            <svg
+              class="w-6 h-6 mr-2 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              />
+            </svg>
+            Conecte-se no LinkedIn
+          </a>
+
+          <a
+            :href="github"
+            class="inline-flex items-center text-ghost-orange hover:underline text-xl font-medium px-6 py-3 rounded-full border border-ghost-orange hover:bg-ghost-orange hover:text-dark-blue transition-colors duration-300 glow-shadow hover:glow-shadow-lg whitespace-nowrap"
+            target="_blank"
+          >
+            <svg
+              class="w-6 h-6 mr-2 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.23 1.838 1.23 1.07 1.835 2.809 1.305 3.493.998.108-.77.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.875 3.3-.875.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+            Ver no GitHub
+          </a>
+
+          <a
+            :href="resume"
+            class="inline-flex items-center text-ghost-orange hover:underline text-xl font-medium px-6 py-3 rounded-full border border-ghost-orange hover:bg-ghost-orange hover:text-dark-blue transition-colors duration-300 glow-shadow hover:glow-shadow-lg whitespace-nowrap"
+            target="_blank"
+          >
+            <svg
+              class="w-6 h-6 mr-2 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M14 2h-4c-1.104 0-2 .896-2 2v16c0 1.104.896 2 2 2h8c1.104 0 2-.896 2-2v-12l-6-6zm0 14h-4v-1h4v1zm0-3h-4v-1h4v1zm0-3h-4v-1h4v1zm2-7.5l-3.5-3.5v3.5h3.5z"
+              />
+            </svg>
+            Meu Currículo
+          </a>
+        </div>
+      </section>
+
+      <section class="py-10">
+        <h2
+          class="text-3xl font-semibold mb-8 text-accent-red font-serif-sc text-center"
+        >
+          <span class="inline-block icon-effect mr-2">🌟</span> Sobre Mim
+          <span class="inline-block icon-effect ml-2">📚</span>
+        </h2>
+        <div
+          class="bg-dark-purple border border-light-purple rounded-xl p-8 shadow-lg"
+        >
+          <p class="text-ghost-white text-opacity-90 leading-relaxed text-lg">
+            Olá! Sou **Rodrigo Shinji Yamashita**, um desenvolvedor apaixonado
+            por criar experiências digitais que **unem estética, funcionalidade
+            e inovação**. Atualmente, estou cursando **Análise e Desenvolvimento
+            de Sistemas** na Unimar, em Marília, SP, o que aprofunda minha
+            compreensão tanto do design quanto da arquitetura de software.
+            <br /><br />
+            Minha principal paixão é o **desenvolvimento Front-End**, onde me
+            dedico a transformar ideias em interfaces intuitivas e visualmente
+            atraentes. Tenho forte inclinação para **User Experience (UX)** e
+            **Design Gráfico**, buscando sempre harmonizar a funcionalidade com
+            a beleza para entregar produtos que realmente encantem os usuários.
+            Minhas habilidades incluem **HTML5, CSS, Vue.js, Vite**, e também
+            posso desenvolver em **C#, PHP, construir APIRestfuls** e trabalhar com
+            **Python**, o que me permite conectar interfaces dinâmicas a dados
+            robustos, criando aplicações completas e eficientes.
+            <br /><br />
+            Fora do universo do código, minhas paixões pela **cultura japonesa**,
+            por **games** e pelo mundo da **tecnologia** me inspiram e alimentam
+            minha criatividade. Acredito que a combinação de dedicação,
+            aprendizado contínuo e atenção aos detalhes são a chave para o
+            sucesso em qualquer empreendimento. Estou sempre em busca de novos
+            desafios para aplicar e aprimorar minhas habilidades, visando
+            entregar projetos que superem as expectativas.
+          </p>
+        </div>
+      </section>
+
+      <section class="py-10">
+        <h2
+          class="text-3xl font-semibold mb-8 text-accent-red font-serif-sc text-center"
+        >
+          <span class="inline-block icon-effect mr-2">🎓</span> Formação e
+          Experiência
+          <span class="inline-block icon-effect ml-2">💼</span>
+        </h2>
+        <div class="timeline">
+          <div
+            v-for="(item, index) in timelineItems"
+            :key="index"
+            class="timeline-item"
+          >
+            <div class="timeline-item-content">
+              <h3 class="text-xl font-bold text-ghost-orange mb-1">
+                {{ item.title }}
+              </h3>
+              <p class="text-ghost-white text-opacity-80 text-base mb-2">
+                {{ item.period }}
+              </p>
+              <p class="text-ghost-white text-opacity-70 text-sm">
+                {{ item.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-10">
+        <h2
+          class="text-3xl font-semibold mb-8 text-accent-red font-serif-sc text-center"
+        >
+          <span class="inline-block icon-effect mr-2">👻</span> Projetos em
+          Destaque <span class="inline-block icon-effect ml-2">🔥</span>
+        </h2>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 justify-center"
+        >
+          <div
+            v-for="(project, index) in projects"
+            :key="index"
+            class="bg-dark-purple border border-light-purple rounded-xl p-8 shadow-lg transition-all duration-500 ease-in-out transform hover:-translate-y-2 glow-shadow hover:glow-shadow-lg relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-12 h-12 bg-accent-red rounded-bl-xl opacity-20"
+              style="clip-path: polygon(100% 0, 0 100%, 100% 100%)"
+            ></div>
+            <h3 class="text-2xl font-bold mb-3 text-ghost-white font-serif-sc">
+              {{ project.title }}
+            </h3>
+            <p class="text-ghost-white text-opacity-80 mb-5 text-lg">
+              {{ project.description }}
+            </p>
+            <a
+              :href="project.link"
+              class="inline-flex items-center text-ghost-orange hover:underline font-medium text-lg"
+              target="_blank"
+            >
+              <svg
+                class="w-5 h-5 mr-2 fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.731.084-.716.084-.716 1.205.082 1.838 1.23 1.838 1.23 1.07 1.835 2.809 1.305 3.493.998.108-.77.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.292-1.552 3.3-.875 3.3-.875.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              Ver no GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-10">
+        <h2
+          class="text-3xl font-semibold mb-8 text-accent-red font-serif-sc text-center"
+        >
+          <span class="inline-block icon-effect mr-2">✨</span> Tecnologias
+          <span class="inline-block icon-effect ml-2">🔮</span>
+        </h2>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <span
+            v-for="(tech, index) in technologies"
+            :key="index"
+            class="bg-light-purple text-ghost-white px-5 py-2 rounded-full text-lg font-medium shadow-md transition-all duration-300 hover:scale-105 hover:glow-shadow"
+          >
+            {{ tech }}
+          </span>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            name: "Rodrigo Shinji Yamashita",
+            linkedin:
+              "https://www.linkedin.com/in/rodrigo-yamashita-30b4b3312/",
+            github: "https://github.com/Rodrigo-Shinji",
+            // Adicione a URL do currículo aqui
+            resume: "https://docs.google.com/document/d/1fQ8kKO0Rg_4XotInUvTIn_tlPO0Tz5hKJ4zNAPUTA0s/edit?usp=sharing",
+            projects: [
+              {
+                title: "Fate/Grand Order API Viewer",
+                description:
+                  "Visualizador de dados para o jogo Fate/Grand Order, utilizando a API da Atlas Academy. Foco em UX intuitiva, requisições assíncronas e renderização dinâmica para exploração de Servos e Itens.",
+                link: "https://github.com/Rodrigo-Shinji/Desenvolvimento-de-uma-Aplica-o-Front-End-com-API-Externa.git",
+              },
+              {
+                title: "Blue Archive API Viewer",
+                description:
+                  "Projeto prático de consumo de API do jogo Blue Archive, desenvolvido com HTML, CSS e JavaScript puros. Oferece exploração interativa de personagens e facções, aprimorando habilidades de manipulação de DOM e Fetch API.",
+                link: "https://github.com/Rodrigo-Shinji/Blue-Archive-Api-Projeto-de-Pr-tica.git",
+              },
+            ],
+            technologies: [
+              "HTML5",
+              "CSS3",
+              "JavaScript",
+              "Vue.js",
+              "Tailwind CSS",
+              "PHP",
+              "C#",
+              "Vite",
+              "API RESTful",
+              "Python",
+              "CSS",
+              "FIGMA",
+            ],
+            timelineItems: [
+              {
+                title: "Graduado Design Gráfico",
+                period: "2020 - 2022",
+                description:
+                  "Univem, Marília, SP. Foco em desenvolvimento de peças gráficas voltadas ao marketing.",
+              },
+              {
+                title: "Cursando Análise e Desenvolvimento de Sistemas",
+                period: "Fevereiro 2024 - Cursando",
+                description:
+                  "Unimar, Marília, SP. Atualmente cursando, focando na expansão e aprofundamento de conhecimentos.",
+              },
+              {
+                title: "Desenvolvedor Freelancer",
+                period: "2023 - Atualmente",
+                description:
+                  "Criação de websites e sistemas web personalizados para clientes, aplicando design responsivo e otimização de performance.",
+              },
+            ],
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
